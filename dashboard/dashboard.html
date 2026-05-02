@@ -4,8 +4,17 @@
     <meta charset="UTF-8">
     <title>SCELE Summary</title>
     <link rel="stylesheet" href="dashboard.css">
+    <script>
+        try {
+            if (localStorage.getItem('scele-summary-theme') === 'dark') {
+                document.documentElement.classList.add('preload-dark');
+            }
+        } catch {}
+    </script>
+    <style>html.preload-dark body { background: #0d1117; color: #c9d1d9; }</style>
 </head>
 <body>
+    <button class="theme-toggle" id="theme-toggle" title="Toggle theme" aria-label="Toggle theme">🌙</button>
     <div class="container">
         <h1>📋 SCELE Summary</h1>
         <div class="subtitle">All your assignments and quizzes, sorted by deadline</div>

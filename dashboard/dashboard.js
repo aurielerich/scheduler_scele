@@ -1,11 +1,32 @@
 let _allCourses = [];
 
 document.title = 'SCELE Summary';
+initThemeToggle();
 startFlow().catch((err) => {
     document.getElementById('content').innerHTML =
         '<div class="error">Error: ' + escapeHtml(err.message) + '</div>';
     setStatus('Failed', false);
 });
+
+function initThemeToggle() {
+    const THEME_KEY = 'scele-summary-theme';
+    const btn = document.getElementById('theme-toggle');
+    const saved = (() => {
+        try { return localStorage.getItem(THEME_KEY); } catch { return null; }
+    })();
+    const isDark = saved === 'dark';
+    document.documentElement.classList.remove('preload-dark');
+    document.documentElement.classList.toggle('dark', isDark);
+    if (btn) {
+        btn.textContent = isDark ? '☀️' : '🌙';
+        btn.onclick = () => {
+            const nowDark = !document.documentElement.classList.contains('dark');
+            document.documentElement.classList.toggle('dark', nowDark);
+            btn.textContent = nowDark ? '☀️' : '🌙';
+            try { localStorage.setItem(THEME_KEY, nowDark ? 'dark' : 'light'); } catch {}
+        };
+    }
+}
 
 function setStatus(text, loading) {
     const sb = document.getElementById('status');
