@@ -1,10 +1,17 @@
 {
   "manifest_version": 3,
   "name": "SCELE Summary",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "Notion-style dashboard for SCELE: assignments, quizzes, announcements, and forums.",
+  "permissions": ["storage"],
   "host_permissions": ["https://scele.cs.ui.ac.id/*"],
   "content_scripts": [
+    {
+      "matches": ["https://scele.cs.ui.ac.id/*"],
+      "js": ["content/scele-dark.js"],
+      "css": ["content/scele-dark.css"],
+      "run_at": "document_start"
+    },
     {
       "matches": ["https://scele.cs.ui.ac.id/*"],
       "js": ["content/content.js"],

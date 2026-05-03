@@ -11,20 +11,49 @@ startFlow().catch((err) => {
 function initThemeToggle() {
     const THEME_KEY = 'scele-summary-theme';
     const btn = document.getElementById('theme-toggle');
-    const saved = (() => {
+    const cached = (() => {
         try { return localStorage.getItem(THEME_KEY); } catch { return null; }
     })();
-    const isDark = saved === 'dark';
     document.documentElement.classList.remove('preload-dark');
-    document.documentElement.classList.toggle('dark', isDark);
+    setDark(cached === 'dark');
+
+    // Reconcile with chrome.storage.local (shared with SCELE content scripts).
+    if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
+        chrome.storage.local.get(THEME_KEY, (data) => {
+            const stored = data && data[THEME_KEY];
+            if (stored === 'dark' || stored === 'light') {
+                if (stored !== cached) {
+                    try { localStorage.setItem(THEME_KEY, stored); } catch {}
+                    setDark(stored === 'dark');
+                }
+            } else if (cached === 'dark' || cached === 'light') {
+                chrome.storage.local.set({ [THEME_KEY]: cached });
+            }
+        });
+        chrome.storage.onChanged.addListener((changes, area) => {
+            if (area !== 'local' || !changes[THEME_KEY]) return;
+            const next = changes[THEME_KEY].newValue;
+            if (next !== 'dark' && next !== 'light') return;
+            try { localStorage.setItem(THEME_KEY, next); } catch {}
+            setDark(next === 'dark');
+        });
+    }
+
     if (btn) {
-        btn.textContent = isDark ? '☀️' : '🌙';
         btn.onclick = () => {
             const nowDark = !document.documentElement.classList.contains('dark');
-            document.documentElement.classList.toggle('dark', nowDark);
-            btn.textContent = nowDark ? '☀️' : '🌙';
-            try { localStorage.setItem(THEME_KEY, nowDark ? 'dark' : 'light'); } catch {}
+            setDark(nowDark);
+            const value = nowDark ? 'dark' : 'light';
+            try { localStorage.setItem(THEME_KEY, value); } catch {}
+            if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
+                chrome.storage.local.set({ [THEME_KEY]: value });
+            }
         };
+    }
+
+    function setDark(isDark) {
+        document.documentElement.classList.toggle('dark', isDark);
+        if (btn) btn.textContent = isDark ? '☀️' : '🌙';
     }
 }
 

@@ -1,0 +1,354 @@
+/*
+ * SCELE dark theme — applied only when <html> has class `scele-dark`.
+ * Palette mirrors the dashboard (GitHub-style). Uses !important because
+ * Moodle ships a large stylesheet with high-specificity rules.
+ */
+
+html.scele-dark {
+    --sd-bg: #0d1117;
+    --sd-surface: #161b22;
+    --sd-surface-2: #1c2128;
+    --sd-border: #30363d;
+    --sd-border-soft: #21262d;
+    --sd-text: #c9d1d9;
+    --sd-text-muted: #8b949e;
+    --sd-accent: #2f81f7;
+    --sd-accent-hover: #58a6ff;
+    --sd-danger: #f85149;
+    color-scheme: dark;
+}
+
+html.scele-dark,
+html.scele-dark body,
+html.scele-dark #page,
+html.scele-dark #page-wrapper,
+html.scele-dark #topofscroll,
+html.scele-dark .pagelayout-standard,
+html.scele-dark .pagelayout-incourse,
+html.scele-dark main,
+html.scele-dark #region-main {
+    background-color: var(--sd-bg) !important;
+    color: var(--sd-text) !important;
+}
+
+html.scele-dark h1,
+html.scele-dark h2,
+html.scele-dark h3,
+html.scele-dark h4,
+html.scele-dark h5,
+html.scele-dark h6,
+html.scele-dark p,
+html.scele-dark span,
+html.scele-dark li,
+html.scele-dark dt,
+html.scele-dark dd,
+html.scele-dark label,
+html.scele-dark legend,
+html.scele-dark small {
+    color: var(--sd-text) !important;
+}
+
+html.scele-dark .text-muted,
+html.scele-dark .dimmed_text,
+html.scele-dark .helptext {
+    color: var(--sd-text-muted) !important;
+}
+
+html.scele-dark a,
+html.scele-dark a:visited {
+    color: var(--sd-accent) !important;
+}
+html.scele-dark a:hover {
+    color: var(--sd-accent-hover) !important;
+}
+
+/* Header / navbar */
+html.scele-dark #page-header,
+html.scele-dark .navbar,
+html.scele-dark .navbar-light,
+html.scele-dark header.navbar,
+html.scele-dark .secondary-navigation,
+html.scele-dark .primary-navigation {
+    background-color: var(--sd-surface) !important;
+    border-color: var(--sd-border) !important;
+    color: var(--sd-text) !important;
+}
+html.scele-dark .navbar .navbar-brand,
+html.scele-dark .navbar a,
+html.scele-dark .navbar .nav-link {
+    color: var(--sd-text) !important;
+}
+
+/* Sidebar / drawer / blocks */
+html.scele-dark #nav-drawer,
+html.scele-dark .drawer,
+html.scele-dark [data-region="drawer"],
+html.scele-dark .block,
+html.scele-dark .block_navigation,
+html.scele-dark .block .card,
+html.scele-dark .block .card-body,
+html.scele-dark .block .header,
+html.scele-dark .block_settings {
+    background-color: var(--sd-surface) !important;
+    border-color: var(--sd-border) !important;
+    color: var(--sd-text) !important;
+}
+
+/* Cards / panels */
+html.scele-dark .card,
+html.scele-dark .card-body,
+html.scele-dark .card-header,
+html.scele-dark .card-footer,
+html.scele-dark .panel,
+html.scele-dark .panel-body,
+html.scele-dark .well,
+html.scele-dark .box,
+html.scele-dark .generalbox,
+html.scele-dark .info-box,
+html.scele-dark .modal-content,
+html.scele-dark .modal-header,
+html.scele-dark .modal-body,
+html.scele-dark .modal-footer,
+html.scele-dark .popover,
+html.scele-dark .popover-body,
+html.scele-dark .popover-header,
+html.scele-dark .dropdown-menu {
+    background-color: var(--sd-surface) !important;
+    border-color: var(--sd-border) !important;
+    color: var(--sd-text) !important;
+}
+
+html.scele-dark .card-header,
+html.scele-dark .modal-header,
+html.scele-dark .popover-header {
+    background-color: var(--sd-surface-2) !important;
+}
+
+html.scele-dark .dropdown-item {
+    color: var(--sd-text) !important;
+}
+html.scele-dark .dropdown-item:hover,
+html.scele-dark .dropdown-item:focus {
+    background-color: var(--sd-surface-2) !important;
+    color: var(--sd-text) !important;
+}
+
+html.scele-dark hr,
+html.scele-dark .border,
+html.scele-dark .border-top,
+html.scele-dark .border-bottom,
+html.scele-dark .border-left,
+html.scele-dark .border-right {
+    border-color: var(--sd-border) !important;
+}
+
+/* Tables (heavy in Moodle: gradebook, forums, course list) */
+html.scele-dark table,
+html.scele-dark .generaltable,
+html.scele-dark .flexible,
+html.scele-dark .table,
+html.scele-dark .table-bordered {
+    background-color: var(--sd-surface) !important;
+    color: var(--sd-text) !important;
+    border-color: var(--sd-border) !important;
+}
+html.scele-dark thead,
+html.scele-dark thead tr,
+html.scele-dark thead th,
+html.scele-dark .table thead th {
+    background-color: var(--sd-surface-2) !important;
+    color: var(--sd-text) !important;
+    border-color: var(--sd-border) !important;
+}
+html.scele-dark tbody tr,
+html.scele-dark tbody td,
+html.scele-dark .table td,
+html.scele-dark .table th {
+    background-color: transparent !important;
+    color: var(--sd-text) !important;
+    border-color: var(--sd-border-soft) !important;
+}
+html.scele-dark .table-striped tbody tr:nth-of-type(odd),
+html.scele-dark tbody tr.r1 {
+    background-color: var(--sd-surface-2) !important;
+}
+html.scele-dark .table-hover tbody tr:hover,
+html.scele-dark tbody tr:hover {
+    background-color: var(--sd-surface-2) !important;
+}
+
+/* Forms */
+html.scele-dark input,
+html.scele-dark textarea,
+html.scele-dark select,
+html.scele-dark .form-control,
+html.scele-dark .custom-select,
+html.scele-dark .form-select {
+    background-color: var(--sd-surface-2) !important;
+    color: var(--sd-text) !important;
+    border-color: var(--sd-border) !important;
+}
+html.scele-dark input::placeholder,
+html.scele-dark textarea::placeholder {
+    color: var(--sd-text-muted) !important;
+}
+html.scele-dark input:focus,
+html.scele-dark textarea:focus,
+html.scele-dark select:focus,
+html.scele-dark .form-control:focus {
+    border-color: var(--sd-accent) !important;
+    box-shadow: 0 0 0 2px rgba(47, 129, 247, 0.25) !important;
+}
+
+/* Buttons */
+html.scele-dark .btn,
+html.scele-dark .btn-secondary,
+html.scele-dark .btn-default,
+html.scele-dark .btn-light,
+html.scele-dark .btn-outline-secondary {
+    background-color: var(--sd-surface-2) !important;
+    color: var(--sd-text) !important;
+    border-color: var(--sd-border) !important;
+}
+html.scele-dark .btn:hover,
+html.scele-dark .btn-secondary:hover,
+html.scele-dark .btn-light:hover {
+    background-color: var(--sd-surface) !important;
+    color: var(--sd-text) !important;
+}
+html.scele-dark .btn-primary {
+    background-color: var(--sd-accent) !important;
+    border-color: var(--sd-accent) !important;
+    color: #fff !important;
+}
+html.scele-dark .btn-primary:hover {
+    background-color: var(--sd-accent-hover) !important;
+    border-color: var(--sd-accent-hover) !important;
+}
+html.scele-dark .btn-danger {
+    background-color: var(--sd-danger) !important;
+    border-color: var(--sd-danger) !important;
+    color: #fff !important;
+}
+
+/* Course view: activities and sections */
+html.scele-dark .course-content,
+html.scele-dark .course-content ul.topics,
+html.scele-dark .course-content ul.weeks,
+html.scele-dark .section,
+html.scele-dark li.section.main,
+html.scele-dark .activity,
+html.scele-dark .activity-item,
+html.scele-dark .activityinstance,
+html.scele-dark .contentafterlink,
+html.scele-dark .activity-altcontent {
+    background-color: transparent !important;
+    color: var(--sd-text) !important;
+    border-color: var(--sd-border-soft) !important;
+}
+html.scele-dark li.section.main + li.section.main,
+html.scele-dark .section .content {
+    border-color: var(--sd-border-soft) !important;
+}
+html.scele-dark .section .sectionname,
+html.scele-dark .section h3.sectionname,
+html.scele-dark .activityinstance .instancename {
+    color: var(--sd-text) !important;
+}
+
+/* Forum posts */
+html.scele-dark .forumpost,
+html.scele-dark .forumpost .header,
+html.scele-dark .forumpost .row,
+html.scele-dark .forumpost .topic,
+html.scele-dark .forumpost .content,
+html.scele-dark .path-mod-forum .forumpost,
+html.scele-dark .path-mod-forum article,
+html.scele-dark .discussion,
+html.scele-dark .discussion-list {
+    background-color: var(--sd-surface) !important;
+    color: var(--sd-text) !important;
+    border-color: var(--sd-border) !important;
+}
+html.scele-dark .forumpost .topic.starter {
+    background-color: var(--sd-surface-2) !important;
+}
+
+/* Activity dates pill area */
+html.scele-dark [data-region="activity-dates"],
+html.scele-dark .activity-dates {
+    color: var(--sd-text-muted) !important;
+}
+
+/* Breadcrumbs */
+html.scele-dark .breadcrumb,
+html.scele-dark nav.breadcrumb-nav,
+html.scele-dark .breadcrumb-item,
+html.scele-dark .breadcrumb-item a {
+    background-color: transparent !important;
+    color: var(--sd-text-muted) !important;
+}
+html.scele-dark .breadcrumb-item.active {
+    color: var(--sd-text) !important;
+}
+
+/* Login page */
+html.scele-dark #page-login-index .login-container,
+html.scele-dark .loginbox {
+    background-color: var(--sd-surface) !important;
+    color: var(--sd-text) !important;
+    border-color: var(--sd-border) !important;
+}
+
+/* Code / pre blocks (sometimes used in forum posts) */
+html.scele-dark code,
+html.scele-dark pre,
+html.scele-dark kbd {
+    background-color: var(--sd-surface-2) !important;
+    color: var(--sd-text) !important;
+    border-color: var(--sd-border) !important;
+}
+
+/* Alerts */
+html.scele-dark .alert {
+    background-color: var(--sd-surface-2) !important;
+    color: var(--sd-text) !important;
+    border-color: var(--sd-border) !important;
+}
+html.scele-dark .alert-success { border-left: 3px solid #3fb950 !important; }
+html.scele-dark .alert-danger,
+html.scele-dark .alert-error { border-left: 3px solid var(--sd-danger) !important; }
+html.scele-dark .alert-warning { border-left: 3px solid #d29922 !important; }
+html.scele-dark .alert-info { border-left: 3px solid var(--sd-accent) !important; }
+
+/* Floating theme toggle (injected by scele-dark.js) */
+#scele-theme-toggle {
+    position: fixed;
+    bottom: 80px;
+    right: 24px;
+    z-index: 999999;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: #ffffff;
+    color: #1f2937;
+    border: 1px solid #d1d5db;
+    cursor: pointer;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    transition: transform 0.15s, background 0.15s;
+    padding: 0;
+}
+#scele-theme-toggle:hover {
+    transform: translateY(-2px);
+}
+html.scele-dark #scele-theme-toggle {
+    background: var(--sd-surface);
+    color: var(--sd-text);
+    border-color: var(--sd-border);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
+}

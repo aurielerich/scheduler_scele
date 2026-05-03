@@ -14,6 +14,8 @@ manifest.json           -- MV3 manifest, host permissions for scele.cs.ui.ac.id
 content/
   content.js            -- content script: injects 📋 Summary button on SCELE pages
   content.css           -- styles for the injected button
+  scele-dark.js         -- content script: applies dark theme class to SCELE pages, syncs with dashboard
+  scele-dark.css        -- dark theme overrides for SCELE (Moodle) pages
 
 dashboard/
   dashboard.html        -- standalone dashboard page (loads all scripts)
@@ -41,7 +43,7 @@ Scripts are loaded via plain `<script>` tags in `dashboard.html` — no ES modul
 
 Yahya Muhandar Fathana and Auriel Erich Ibrahim
 
-## Current Features (v0.4)
+## Current Features (v0.5)
 
 ### 1. Course Picker
 - Fetches the SCELE homepage to discover all enrolled courses
@@ -83,11 +85,26 @@ Yahya Muhandar Fathana and Auriel Erich Ibrahim
 - Concurrency of 4 for reply checking
 
 ### 5. Dark Mode
+Applies in two places: the dashboard and SCELE itself. One toggle in either context updates the other live.
+
+**Dashboard side**
 - Toggle button (🌙/☀️) fixed at top-right of the dashboard, visible on every view, stays put while scrolling
 - GitHub-style palette: bg `#0d1117`, cards `#161b22`, blue accent `#2f81f7`, off-white text `#c9d1d9`. Pills use desaturated dark variants (e.g. `pill-done` becomes `#103021` bg / `#4ade80` text) so they don't glow on dark backgrounds.
 - Implemented via CSS variables: `:root` defines light theme, `html.dark` overrides them. Toggling adds/removes `dark` class on `<html>` (not `<body>`) so variables cascade to both.
-- Preference persisted to localStorage under key `scele-summary-theme` (`light` / `dark`).
 - Pre-paint flash prevention: small inline `<script>` in `<head>` reads localStorage and adds `preload-dark` class before CSS loads, paired with a minimal inline style to set the dark bg immediately.
+
+**SCELE side**
+- A second 🌙/☀️ toggle is injected at bottom-right (above the 📋 Summary button) by `content/scele-dark.js`.
+- `content/scele-dark.css` ships dark overrides for the most-used Moodle surfaces (body/navbar/sidebar, cards, tables, forms, buttons, course view, forum posts, modals, alerts). All rules are scoped to `html.scele-dark` and use `!important` because they need to win against Moodle's own stylesheet.
+- The content script registers at `run_at: document_start` so the class lands before paint. CSS bundled with the same content_scripts entry is injected before Moodle's CSS loads — `!important` + the `html.scele-dark` prefix is what makes overrides actually win.
+- New surfaces won't be styled until added to `scele-dark.css`. Iterate by visiting a broken page and adding selectors. Use `html.scele-dark` prefix on every rule.
+
+**Cross-context sync (storage architecture)**
+- Source of truth: `chrome.storage.local` under key `scele-summary-theme` (values `'dark'` / `'light'`). Requires `"permissions": ["storage"]` in the manifest.
+- Each context (dashboard page + SCELE pages) **also** mirrors the value to its own `localStorage` under the same key. localStorage is per-origin (the dashboard's `chrome-extension://...` localStorage and SCELE's `scele.cs.ui.ac.id` localStorage are separate) — the mirror exists only for instant pre-paint, since `chrome.storage.local` is async and would cause a flash.
+- Flow on toggle: write to local `localStorage` (instant, for next pageload's pre-paint) **and** to `chrome.storage.local` (broadcasts to other contexts).
+- Flow on load: read `localStorage` synchronously and apply class immediately, then read `chrome.storage.local` async to reconcile (overwrites the mirror if they diverge). On first run after install, if local cache exists but `chrome.storage` doesn't, the cache is pushed up so the other context picks it up.
+- Live updates: both contexts register `chrome.storage.onChanged` listeners; toggling on a SCELE tab updates the dashboard tab without reload, and vice-versa.
 
 ## Critical Technical Details
 
@@ -123,8 +140,11 @@ Each scraper renders the back-button toolbar immediately (before fetches start) 
 ## Extension Manifest Notes
 
 - `manifest_version: 3`
+- `permissions: ["storage"]` — required for `chrome.storage.local`, used to sync the dark mode preference between the dashboard and SCELE content scripts.
 - `host_permissions: ["https://scele.cs.ui.ac.id/*"]` (only SCELE, nothing else). No `cookies` permission needed — `fetch(..., {credentials: 'include'})` from the dashboard page automatically attaches the SCELE session cookie because of host_permissions.
-- `content_scripts` injects the Summary button on `scele.cs.ui.ac.id` pages
+- Two `content_scripts` entries on the same matches:
+  - `scele-dark.{js,css}` at `run_at: document_start` — applies dark theme class before paint.
+  - `content.{js,css}` at `run_at: document_end` — injects the 📋 Summary button.
 - Dashboard page opened via `chrome.runtime.getURL('dashboard/dashboard.html')`
 - `web_accessible_resources` exposes `dashboard/dashboard.html` to SCELE pages so the content script can open it
 - No icons committed yet — Chrome falls back to the default puzzle-piece icon. Drop PNGs into `icons/` and add an `"icons"` field to manifest.json to brand it.
